@@ -43,6 +43,9 @@
     <Filter Include="CameraEffects">
       <UniqueIdentifier>{70e3c1bb-10b7-426e-8382-b2bafebb873c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SceneGraph">
+      <UniqueIdentifier>{1f0d4a21-fb21-4155-a928-c17019c45c5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -147,6 +150,18 @@
     <ClCompile Include="Source\WeaponInfo\RPG.cpp">
       <Filter>WeaponInfo</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Projectile\Laser.cpp">
+      <Filter>Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneGraph\SceneGraph.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneGraph\SceneNode.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneGraph\Transform.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -247,6 +262,18 @@
     </ClInclude>
     <ClInclude Include="Source\WeaponInfo\RPG.h">
       <Filter>WeaponInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Projectile\Laser.h">
+      <Filter>Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneGraph\SceneGraph.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneGraph\SceneNode.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneGraph\Transform.h">
+      <Filter>SceneGraph</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
