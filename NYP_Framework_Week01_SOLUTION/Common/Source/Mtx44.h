@@ -48,6 +48,8 @@ public:
 	void SetToOrtho(double left, double right, double bottom, double top, double nearVal, double farVal);
 
 	float a[16];
+	// Print out the content of this class instance
+	void PrintSelf(void);
 };
 
 #endif //MTX_44_H

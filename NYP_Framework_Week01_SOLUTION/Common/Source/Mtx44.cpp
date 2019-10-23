@@ -8,6 +8,8 @@ Matrix 4 by 4 use for affine transformation
 */
 /******************************************************************************/
 #include "Mtx44.h"
+#include <iostream>
+using namespace std;
 /******************************************************************************/
 /*!
 \brief
@@ -494,4 +496,20 @@ void Mtx44::SetToOrtho(double left, double right, double bottom, double top, dou
 		0, 2 / (float)(top - bottom), 0, 0,
 		0, 0, - 2 / (float)(farVal - nearVal), 0,
 		- (float)((right + left) / (right - left)), - (float)((top + bottom) / (top - bottom)), - (float)((farVal + nearVal) / (farVal - nearVal)), 1);
+}
+
+/******************************************************************************/
+/*!
+\brief Print out the content of this class instance
+/******************************************************************************/
+void Mtx44::PrintSelf(void)
+{
+	cout << "======================================================================" << endl;
+	cout << "CSceneNode::PrintSelf" << endl;
+	cout << "----------------------------------------------------------------------" << endl;
+	cout << "a[\t" << a[0] << "\t" << a[4] << "\t" << a[8] << "\t" << a[12] << "\t]" << endl;
+	cout << "a[\t" << a[1] << "\t" << a[5] << "\t" << a[9] << "\t" << a[13] << "\t]" << endl;
+	cout << "a[\t" << a[2] << "\t" << a[6] << "\t" << a[10] << "\t" << a[14] << "\t]" << endl;
+	cout << "a[\t" << a[3] << "\t" << a[7] << "\t" << a[11] << "\t" << a[15] << "\t]" << endl;
+	cout << "======================================================================" << endl;
 }

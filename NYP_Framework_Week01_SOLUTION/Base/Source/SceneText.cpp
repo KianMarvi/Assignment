@@ -22,6 +22,7 @@
 #include "Light.h"
 #include "SkyBox/SkyBoxEntity.h"
 #include "Minimap\Minimap.h"
+#include "SceneGraph\SceneGraph.h"
 
 #include <iostream>
 using namespace std;
@@ -67,6 +68,8 @@ SceneText::~SceneText()
 		delete theKeyboard;
 		theKeyboard = NULL;
 	}
+
+	CSceneGraph::GetInstance()->Destroy();
 }
 
 void SceneText::Init()
@@ -213,6 +216,8 @@ void SceneText::Init()
 
 	anEnemy3D->SetTerrain(groundEntity);
 
+	// Create entities such as NPC etc
+	this->CreateEntities();
 
 	// Setup the 2D entities
 	float halfWindowWidth = Application::GetInstance().GetWindowWidth() / 2.0f;
@@ -253,7 +258,12 @@ void SceneText::Init()
 
 	theMouse = new CMouse();
 	theMouse->Create(playerInfo);
+
+
+	
 }
+
+
 
 void SceneText::Update(double dt)
 {
@@ -328,6 +338,9 @@ void SceneText::Update(double dt)
 
 	//camera.Update(dt); // Can put the camera into an entity rather than here (Then we don't have to write this)
 
+	// Update the Scene Graph
+	CSceneGraph::GetInstance()->Update((float)dt);
+
 	// Update NPC
 	//enemyInfo->Update(dt);
 
@@ -368,6 +381,7 @@ void SceneText::Render()
 	// PreRenderMesh
 	RenderHelper::PreRenderMesh();
 		EntityManager::GetInstance()->Render();
+		CSceneGraph::GetInstance()->Render();
 	// PostRenderMesh
 	RenderHelper::PostRenderMesh();
 
@@ -384,7 +398,7 @@ void SceneText::Render()
 		RenderHelper::PreRenderText();
 
 			EntityManager::GetInstance()->RenderUI();
-
+			CSceneGraph::GetInstance()->Render();
 			if (KeyboardController::GetInstance()->IsKeyDown('9'))
 				theCameraEffects->SetStatus_BloodScreen(true);
 			// Render Camera Effects
@@ -416,4 +430,72 @@ void SceneText::Exit()
 	// Delete the lights
 	delete lights[0];
 	delete lights[1];
+}
+
+/***********************************************************
+Create Entities to display in this game
+************************************************************/
+void SceneText::CreateEntities(void)
+{
+	// Add a cube to act as the torso of a NPC
+	GenericEntity* pNPCTorso = Create::Entity("cube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCTorso->SetCollider(true);
+	pNPCTorso->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
+
+	// Add the pointer to the root of the Scene Graph
+	CSceneNode* pNPCSceneNode = CSceneGraph::GetInstance()->AddNode(pNPCTorso);
+	pNPCSceneNode->SetTranslate(Vector3(0.0f, 1.0f, -10.0f));
+
+	// Add a sphere to act as the head of the NPC
+	GenericEntity* pNPCPart = Create::Entity("sphere", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart->SetCollider(true);
+	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
+	CSceneNode* anotherNode = pNPCSceneNode->AddChild(pNPCPart);
+	anotherNode->SetTranslate(Vector3(0.0f, 1.0f, 0.0f));
+
+	// Add a cube to act as the left leg of the NPC
+	pNPCPart = Create::Entity("cube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart->SetCollider(true);
+	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
+	anotherNode = pNPCSceneNode->AddChild(pNPCPart);
+	anotherNode->SetTranslate(Vector3(-0.6f, -1.0f, 0.0f));
+
+	// Add a cube to act as the right leg of the NPC
+	pNPCPart = Create::Entity("cube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart->SetCollider(true);
+	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
+	anotherNode = pNPCSceneNode->AddChild(pNPCPart);
+	anotherNode->SetTranslate(Vector3(0.6f, -1.0f, 0.0f));
+
+	// Add a cube to act as the left arm of the NPC
+	pNPCPart = Create::Entity("cube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart->SetCollider(true);
+	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
+	anotherNode = pNPCSceneNode->AddChild(pNPCPart);
+	anotherNode->SetTranslate(Vector3(-1.2f, 0.0f, 0.0f));
+
+	// Add a cube to act as the right arm of the NPC
+	pNPCPart = Create::Entity("cube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart->SetCollider(true);
+	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
+	anotherNode = pNPCSceneNode->AddChild(pNPCPart);
+	anotherNode->SetTranslate(Vector3(1.2f, 0.0f, 0.0f));
+
+
+
+	//// Add a sphere to act as the head of the NPC
+	// Add a cube to act as the torso of a NPC
+	GenericEntity* pNPCTorso2 = Create::Entity("cube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCTorso->SetCollider(true);
+	pNPCTorso->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
+
+	CSceneNode* pNPCSceneNode2 = CSceneGraph::GetInstance()->AddNode(pNPCTorso2);
+	pNPCSceneNode2->SetTranslate(Vector3(20.f, 1.0f, -10.0f));
+	if (KeyboardController::GetInstance()->IsKeyDown('L'))
+	{
+		pNPCSceneNode2 = CSceneGraph::GetInstance()->AddNode(pNPCTorso);
+		pNPCSceneNode2->SetTranslate(Vector3(-0.8f, 1.0f, 0.f));
+	}
+	CSceneGraph::GetInstance()->PrintSelf();
+
 }

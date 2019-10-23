@@ -1,33 +1,33 @@
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\common.pdb
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\common.idb
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\utility.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\timer.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\shaderprogram.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\scenemanager.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\renderhelper.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\mtx44.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\mousecontroller.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\meshbuilder.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\mesh.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\matrixstack.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\mathutility.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\loadtga.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\loadobj.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\lightbase.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\keyboardcontroller.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\graphicsmanager.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\fpscounter.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\entitybase.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\collider.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\camerabase.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\win32input.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\vector3.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\vector2.obj
-c:\users\tohdj\desktop\nyp_framework_week01_solution\debug\common.lib
-c:\users\tohdj\desktop\nyp_framework_week01_solution\debug\common.pdb
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\common.tlog\cl.command.1.tlog
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\common.tlog\cl.read.1.tlog
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\common.tlog\cl.write.1.tlog
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\common.tlog\lib-link.read.1.tlog
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\common.tlog\lib-link.write.1.tlog
-c:\users\tohdj\desktop\nyp_framework_week01_solution\common\debug\common.tlog\lib.command.1.tlog
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\common.pdb
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\common.idb
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\utility.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\timer.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\shaderprogram.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\scenemanager.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\renderhelper.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\mtx44.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\mousecontroller.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\meshbuilder.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\mesh.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\matrixstack.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\mathutility.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\loadtga.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\loadobj.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\lightbase.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\keyboardcontroller.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\graphicsmanager.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\fpscounter.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\entitybase.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\collider.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\camerabase.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\win32input.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\vector3.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\vector2.obj
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\debug\common.lib
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\debug\common.pdb
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\common.tlog\cl.command.1.tlog
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\common.tlog\cl.read.1.tlog
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\common.tlog\cl.write.1.tlog
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\common.tlog\lib-link.read.1.tlog
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\common.tlog\lib-link.write.1.tlog
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week01_solution\common\debug\common.tlog\lib.command.1.tlog

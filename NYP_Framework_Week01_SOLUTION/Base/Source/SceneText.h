@@ -30,6 +30,10 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
+protected:
+	// Create Entities to display in this game
+	virtual void CreateEntities(void);
+
 private:
 	SceneText(SceneManager* _sceneMgr); // This is used to register to SceneManager
 

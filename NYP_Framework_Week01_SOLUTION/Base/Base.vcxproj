@@ -26,6 +26,7 @@
     <ClCompile Include="Source\Minimap\Minimap.cpp" />
     <ClCompile Include="Source\OBJMesh.cpp" />
     <ClCompile Include="Source\PlayerInfo\PlayerInfo.cpp" />
+    <ClCompile Include="Source\Projectile\Laser.cpp" />
     <ClCompile Include="Source\Projectile\Projectile.cpp" />
     <ClCompile Include="Source\Scene2D\Animation.cpp" />
     <ClCompile Include="Source\Scene2D\Enemy.cpp" />
@@ -37,6 +38,9 @@
     <ClCompile Include="Source\Scene2D\Strategy.cpp" />
     <ClCompile Include="Source\Scene2D\Strategy_Kill.cpp" />
     <ClCompile Include="Source\Scene2D\TreasureChest.cpp" />
+    <ClCompile Include="Source\SceneGraph\SceneGraph.cpp" />
+    <ClCompile Include="Source\SceneGraph\SceneNode.cpp" />
+    <ClCompile Include="Source\SceneGraph\Transform.cpp" />
     <ClCompile Include="Source\SceneText.cpp" />
     <ClCompile Include="Source\SkyBox\SkyBoxEntity.cpp" />
     <ClCompile Include="Source\SoundEngine.cpp" />
@@ -61,6 +65,7 @@
     <ClInclude Include="Source\Minimap\Minimap.h" />
     <ClInclude Include="Source\OBJMesh.h" />
     <ClInclude Include="Source\PlayerInfo\PlayerInfo.h" />
+    <ClInclude Include="Source\Projectile\Laser.h" />
     <ClInclude Include="Source\Projectile\Projectile.h" />
     <ClInclude Include="Source\Scene2D\Animation.h" />
     <ClInclude Include="Source\Scene2D\Enemy.h" />
@@ -72,6 +77,9 @@
     <ClInclude Include="Source\Scene2D\Strategy.h" />
     <ClInclude Include="Source\Scene2D\Strategy_Kill.h" />
     <ClInclude Include="Source\Scene2D\TreasureChest.h" />
+    <ClInclude Include="Source\SceneGraph\SceneGraph.h" />
+    <ClInclude Include="Source\SceneGraph\SceneNode.h" />
+    <ClInclude Include="Source\SceneGraph\Transform.h" />
     <ClInclude Include="Source\SceneText.h" />
     <ClInclude Include="Source\SkyBox\SkyBoxEntity.h" />
     <ClInclude Include="Source\SoundEngine.h" />
