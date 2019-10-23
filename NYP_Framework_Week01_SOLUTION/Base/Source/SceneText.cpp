@@ -14,7 +14,6 @@
 #include "ShaderProgram.h"
 #include "EntityManager.h"
 #include "RenderHelper.h"
-#include "FPSCounter.h"
 
 #include "GenericEntity.h"
 #include "GroundEntity.h"
@@ -337,9 +336,10 @@ void SceneText::Update(double dt)
 	// Update the 2 text object values. NOTE: Can do this in their own class but i'm lazy to do it now :P
 	// Eg. FPSRenderEntity or inside RenderUI for LightEntity
 	DisplayText.precision(5);
+	float fps = (float)(1.f / dt);
 	DisplayText.str("");
 	DisplayText.clear();
-	DisplayText << "FPS: " << CFPSCounter::GetInstance()->GetFrameRate();
+	DisplayText << "FPS: " << fps;
 	textObj[1]->SetText(DisplayText.str());
 
 	DisplayText.str("");
@@ -356,6 +356,10 @@ void SceneText::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	GraphicsManager::GetInstance()->UpdateLightUniforms();
+
+	// Setup 3D pipeline then render 3D
+	GraphicsManager::GetInstance()->SetPerspectiveProjection(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f);
+	GraphicsManager::GetInstance()->AttachCamera(&camera);
 
 	// Setup 3D pipeline then render 3D
 	GraphicsManager::GetInstance()->SetPerspectiveProjection(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f);

@@ -18,13 +18,10 @@ public:
 	void Update(const double deltaTime);
 
 	// Get the current frame rate
-	double GetFrameRate(void);
+	double GetFrameRate(void) const;
 
 	// Get the current frame time
 	double GetFrameTime(void) const;
-
-	// Print Self
-	void PrintSelf(void);
 
 protected:
 	// Count the elapsed time since the last reset
@@ -35,6 +32,4 @@ protected:
 	int iFrameRate;
 	// Count the elapsed time since the last reset
 	double dFrameTime;
-	// Boolean flag to indicate if the average frame rate was calculated
-	bool bAverageFrameRate;
 };

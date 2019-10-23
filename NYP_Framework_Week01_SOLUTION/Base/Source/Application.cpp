@@ -3,7 +3,6 @@
 #include "KeyboardController.h"
 #include "SceneManager.h"
 #include "GraphicsManager.h"
-#include "FPSCounter.h"
 
 //Include GLEW
 #include <GL/glew.h>
@@ -16,6 +15,7 @@
 #include <stdlib.h>
 
 #include "SceneText.h"
+#include "FPSCounter.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -116,7 +116,7 @@ void Application::Run()
 	SceneManager::GetInstance()->SetActiveScene("Start");
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 
-	// Init the FPS Counter
+	// Initialise the FPS counter
 	CFPSCounter::GetInstance()->Init();
 	double dElapsedTime = 0.0;
 
@@ -126,6 +126,7 @@ void Application::Run()
 		UpdateInput();
 
 		dElapsedTime = m_timer.getElapsedTime();
+		// Update the FPS counter
 		CFPSCounter::GetInstance()->Update(dElapsedTime);
 		SceneManager::GetInstance()->Update(dElapsedTime);
 		SceneManager::GetInstance()->Render();
