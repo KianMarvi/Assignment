@@ -483,19 +483,19 @@ void SceneText::CreateEntities(void)
 
 
 
-	//// Add a sphere to act as the head of the NPC
-	// Add a cube to act as the torso of a NPC
-	GenericEntity* pNPCTorso2 = Create::Entity("cube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
-	pNPCTorso->SetCollider(true);
-	pNPCTorso->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
+	////// Add a sphere to act as the head of the NPC
+	//// Add a cube to act as the torso of a NPC
+	//GenericEntity* pNPCTorso2 = Create::Entity("cube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	//pNPCTorso->SetCollider(true);
+	//pNPCTorso->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
 
-	CSceneNode* pNPCSceneNode2 = CSceneGraph::GetInstance()->AddNode(pNPCTorso2);
-	pNPCSceneNode2->SetTranslate(Vector3(20.f, 1.0f, -10.0f));
-	if (KeyboardController::GetInstance()->IsKeyDown('L'))
-	{
-		pNPCSceneNode2 = CSceneGraph::GetInstance()->AddNode(pNPCTorso);
-		pNPCSceneNode2->SetTranslate(Vector3(-0.8f, 1.0f, 0.f));
-	}
+	//CSceneNode* pNPCSceneNode2 = CSceneGraph::GetInstance()->AddNode(pNPCTorso2);
+	//pNPCSceneNode2->SetTranslate(Vector3(20.f, 1.0f, -10.0f));
+	//if (KeyboardController::GetInstance()->IsKeyDown('L'))
+	//{
+	//	pNPCSceneNode2 = CSceneGraph::GetInstance()->AddNode(pNPCTorso);
+	//	pNPCSceneNode2->SetTranslate(Vector3(-0.8f, 1.0f, 0.f));
+	//}
 	CSceneGraph::GetInstance()->PrintSelf();
 
 }

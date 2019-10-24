@@ -1,0 +1,43 @@
+﻿  Application.cpp
+  CameraEffects.cpp
+  Enemy3D.cpp
+  EntityManager.cpp
+  FPSCamera.cpp
+  GenericEntity.cpp
+  GroundEntity.cpp
+  Controller.cpp
+  Keyboard.cpp
+  Mouse.cpp
+  Light.cpp
+  main.cpp
+  Minimap.cpp
+  OBJMesh.cpp
+  PlayerInfo.cpp
+  Laser.cpp
+  Projectile.cpp
+  Animation.cpp
+  Enemy.cpp
+  Goodies.cpp
+  Compiling...
+  GoodiesFactory.cpp
+  Map.cpp
+  PlayerInfo2D.cpp
+  Scene2D.cpp
+  Strategy.cpp
+  Strategy_Kill.cpp
+  TreasureChest.cpp
+  SceneGraph.cpp
+  SceneNode.cpp
+  Transform.cpp
+  SceneText.cpp
+  SkyBoxEntity.cpp
+  SoundEngine.cpp
+  SpriteEntity.cpp
+  TextEntity.cpp
+  Pistol.cpp
+  RPG.cpp
+  WeaponInfo.cpp
+  Generating code
+  All 2600 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Base.vcxproj -> C:\Users\Kian Marvi\Documents\NYP_GDT\AGDEV\Assignment\NYP_Framework_Week01_SOLUTION\Release\Base.exe
