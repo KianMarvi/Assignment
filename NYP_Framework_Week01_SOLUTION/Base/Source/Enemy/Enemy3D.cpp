@@ -86,6 +86,17 @@ void CEnemy3D::SetTerrain(GroundEntity* m_pTerrain)
 	}
 }
 
+// Set the speed of this Enemy's movement
+void CEnemy3D::SetSpeed(const double m_dSpeed)
+{
+	this->m_dSpeed = m_dSpeed;
+}
+// Set the acceleration of this Enemy's movement
+void CEnemy3D::SetAcceleration(const double m_dAcceleration)
+{
+	this->m_dAcceleration = m_dAcceleration;
+}
+
 // Get position
 Vector3 CEnemy3D::GetPos(void) const
 {
@@ -106,6 +117,17 @@ Vector3 CEnemy3D::GetUp(void) const
 GroundEntity* CEnemy3D::GetTerrain(void)
 {
 	return m_pTerrain;
+}
+
+// Get the speed of this Enemy's movement
+double CEnemy3D::GetSpeed(void) const
+{
+	return m_dSpeed;
+}
+// Get the acceleration of this Enemy's movement
+double CEnemy3D::GetAcceleration(void) const
+{
+	return m_dAcceleration;
 }
 
 // Update
@@ -155,17 +177,20 @@ void CEnemy3D::Constrain(void)
 // Render
 void CEnemy3D::Render(void)
 {
+	/*
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
 	modelStack.Translate(position.x, position.y, position.z);
 	modelStack.Scale(scale.x, scale.y, scale.z);
+	*/
 	RenderHelper::RenderMesh(modelMesh);
-	modelStack.PopMatrix();
+	//modelStack.PopMatrix();
 }
 
 CEnemy3D* Create::Enemy3D(const std::string& _meshName,
 						const Vector3& _position,
-						const Vector3& _scale)
+						const Vector3& _scale,
+						const bool bAddToEntityManager)
 {
 	Mesh* modelMesh = MeshBuilder::GetInstance()->GetMesh(_meshName);
 	if (modelMesh == nullptr)
@@ -175,6 +200,8 @@ CEnemy3D* Create::Enemy3D(const std::string& _meshName,
 	result->SetPosition(_position);
 	result->SetScale(_scale);
 	result->SetCollider(false);
-	EntityManager::GetInstance()->AddEntity(result);
+
+	if (bAddToEntityManager)
+		EntityManager::GetInstance()->AddEntity(result);
 	return result;
 }

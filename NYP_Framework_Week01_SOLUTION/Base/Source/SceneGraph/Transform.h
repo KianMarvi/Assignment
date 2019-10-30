@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Mtx44.h"
+#include "UpdateTransformation.h"
 
 class CTransform
 {
@@ -61,9 +62,16 @@ public:
 	// Get the inverse of the transformation matrix
 	Mtx44 GetInverseTransform(void) const;
 
+	// Set the Update Transformation
+	void SetUpdateTransformation(CUpdateTransformation*theUpdateTransformation = NULL);
+
+	// Get the update transformation matrix
+	Mtx44 GetUpdateTransform(void) const;
+
 	// Print Self
 	void PrintSelf(void) const;
 
 protected:
 	Mtx44 Mtx, DefaultMtx;
+	CUpdateTransformation* theUpdateTransformation;
 };

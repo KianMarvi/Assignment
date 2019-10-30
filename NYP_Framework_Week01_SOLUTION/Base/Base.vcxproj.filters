@@ -162,6 +162,9 @@
     <ClCompile Include="Source\SceneGraph\Transform.cpp">
       <Filter>SceneGraph</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SceneGraph\UpdateTransformation.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -273,6 +276,9 @@
       <Filter>SceneGraph</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneGraph\Transform.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneGraph\UpdateTransformation.h">
       <Filter>SceneGraph</Filter>
     </ClInclude>
   </ItemGroup>

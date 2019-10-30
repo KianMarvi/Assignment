@@ -40,6 +40,10 @@ public:
 	void SetBoundary(Vector3 max, Vector3 min);
 	// Set the terrain for the player info
 	void SetTerrain(GroundEntity* m_pTerrain);
+	// Set the speed of this Enemy's movement
+	void SetSpeed(const double m_dSpeed);
+	// Set the acceleration of this Enemy's movement
+	void SetAcceleration(const double m_dAcceleration);
 
 	// Get position
 	Vector3 GetPos(void) const;
@@ -49,6 +53,10 @@ public:
 	Vector3 GetUp(void) const;
 	// Get the terrain for the player info
 	GroundEntity* GetTerrain(void);
+	// Get the speed of this Enemy's movement
+	double GetSpeed(void) const;
+	// Get the acceleration of this Enemy's movement
+	double GetAcceleration(void) const;
 
 	// Update
 	void Update(double dt = 0.0333f);
@@ -63,5 +71,6 @@ namespace Create
 {
 	CEnemy3D* Enemy3D(const std::string& _meshName,
 						const Vector3& _position,
-						const Vector3& _scale = Vector3(1.0f, 1.0f, 1.0f));
+						const Vector3& _scale = Vector3(1.0f, 1.0f, 1.0f),
+						const bool bAddToEntityManager = true);
 };
