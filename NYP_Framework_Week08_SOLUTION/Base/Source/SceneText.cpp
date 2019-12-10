@@ -550,27 +550,27 @@ void SceneText::CreateEntities(void)
 	anotherNode->SetUpdateTransformation(aRotateMtx);
 
 	srand(NULL);
-	//for (int i = 0; i < 100; i++)
-	//{
-	//	anEnemy3D = Create::Enemy3D("sphere", 
-	//								Vector3(rand() % 1000 - 500.0f, 0.0f, rand() % 1000 - 500.0f), 
-	//								Vector3(1.0f, 1.0f, 1.0f), 
-	//								false);
-	//	anEnemy3D->InitLOD("sphere", "cube", "sphere");
-	//	anEnemy3D->Init();
-	//	//anEnemy3D->SetPos(Vector3(0, 0, 0));
-	//	anEnemy3D->SetSpeed(10.0f);
-	//	anEnemy3D->SetCollider(true);
-	//	anEnemy3D->SetAABB(Vector3(0.5, 0.5, 0.5), Vector3(-0.5, -0.5, -0.5));
+	for (int i = 0; i < 100; i++)
+	{
+		anEnemy3D = Create::Enemy3D("sphere", 
+									Vector3(rand() % 1000 - 500.0f, 0.0f, rand() % 1000 - 500.0f), 
+									Vector3(1.0f, 1.0f, 1.0f), 
+									false);
+		anEnemy3D->InitLOD("sphere", "yellowcube", "sphere");
+		anEnemy3D->Init();
+		//anEnemy3D->SetPos(Vector3(0, 0, 0));
+		anEnemy3D->SetSpeed(10.0f);
+		anEnemy3D->SetCollider(true);
+		anEnemy3D->SetAABB(Vector3(0.5, 0.5, 0.5), Vector3(-0.5, -0.5, -0.5));
 
-	//	anEnemy3D->SetTerrain(groundEntity);
+		anEnemy3D->SetTerrain(groundEntity);
 
-	//	// Add the entity into the Spatial Partition
-	//	CSpatialPartition::GetInstance()->Add(anEnemy3D);
+		// Add the entity into the Spatial Partition
+		CSpatialPartition::GetInstance()->Add(anEnemy3D);
 
-	//	pNPCSceneNode = CSceneGraph::GetInstance()->AddNode(anEnemy3D);
-	//	pNPCSceneNode->SetTranslate(Vector3(0.0f, 0.0f, 0.0f));
-	//}
+		pNPCSceneNode = CSceneGraph::GetInstance()->AddNode(anEnemy3D);
+		pNPCSceneNode->SetTranslate(Vector3(0.0f, 0.0f, 0.0f));
+	}
 
 	CSceneGraph::GetInstance()->ReCalc_AABB();
 }

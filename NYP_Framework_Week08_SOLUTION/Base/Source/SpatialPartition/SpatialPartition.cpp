@@ -159,8 +159,7 @@ Update the spatial partition
 ********************************************************************************/
 void CSpatialPartition::Update(void)
 {
-
-	CFrustumCulling::GetInstance()->Update(theCamera->GetCameraPos(), theCamera->GetCameraTarget(), theCamera->GetCameraUp());
+	//CFrustumCulling::GetInstance()->Update(theCamera->GetCameraPos(), theCamera->GetCameraTarget(), theCamera->GetCameraUp());
 	//cout << "Rendering these grids:" << endl;
 	for (int i = 0; i < xNumOfGrid; i++)
 	{
