@@ -95,6 +95,8 @@ protected:
 	float yOffset;
 	std::string _meshName; // Name of the mesh
 
+	bool EnableVisibilityCheck;
+
 	// Define the mesh render mode
 	CGrid::SMeshRenderMode meshRenderMode;
 

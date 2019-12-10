@@ -4,6 +4,7 @@
 #include "GraphicsManager.h"
 #include "RenderHelper.h"
 #include "../FrustumCulling/FrustumCulling.h"
+#include "KeyboardController.h"
 
 template <typename T> vector<T> concat(vector<T> &a, vector<T> &b) {
 	vector<T> ret = vector<T>();
@@ -26,6 +27,7 @@ CSpatialPartition::CSpatialPartition(void)
 	, yOffset(0.0f)
 	, _meshName("")
 	, theCamera(NULL)
+	, EnableVisibilityCheck(true)
 {
 }
 
@@ -158,42 +160,45 @@ void CSpatialPartition::Update(void)
 		{
 			// Update the grid
 			theGrid[i*zNumOfGrid + j].Update(&MigrationList);
-
-			// Check visibility
-			/*if (IsVisible(theCamera->GetCameraPos(),
-				theCamera->GetCameraTarget() - theCamera->GetCameraPos(),
-				i, j) == true)*/
 			float gridXPos = (float)(xGridSize* i + (xGridSize >> 1) - (xSize >> 1));
 			float gridZPos = (float)(zGridSize* j + (zGridSize >> 1) - (zSize >> 1));
 			Vector3 gridPos(gridXPos, 0.f, gridZPos);
 
-			// Do Frustum Culling. We only render the grid if it is in the Frustum
-			if (CFrustumCulling::GetInstance()->isBoxInFrustum(gridPos, xGridSize, zGridSize))
+			// Do Frustum Culling. We only render the grid if it is in the Frustum'
+			if (KeyboardController::GetInstance()->IsKeyDown('1'))
 			{
-				if (theGrid[i*zNumOfGrid + j].GetNumOfObject() > 0)
+				if (CFrustumCulling::GetInstance()->isBoxInFrustum(gridPos, xGridSize, zGridSize))
 				{
-					//cout << "[" << i << ", " << j << "], ";
-					// Calculate LOD for this CGrid
-					//cout << "Not Culling!" << endl;
-					float distance = CalculateDistanceSquare(&(theCamera->GetCameraPos()), i, j);
-					if (distance < LevelOfDetails_Distances[0])
+					if (theGrid[i*zNumOfGrid + j].GetNumOfObject() > 0)
 					{
-						theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::HIGH_DETAILS);
-					}
-					else if (distance < LevelOfDetails_Distances[1])
-					{
-						theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::MID_DETAILS);
-					}
-					else
-					{
-						theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::LOW_DETAILS);
+						//cout << "[" << i << ", " << j << "], ";
+						// Calculate LOD for this CGrid
+						//cout << "Not Culling!" << endl;
+						float distance = CalculateDistanceSquare(&(theCamera->GetCameraPos()), i, j);
+						if (distance < LevelOfDetails_Distances[0])
+						{
+							theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::HIGH_DETAILS);
+						}
+						else if (distance < LevelOfDetails_Distances[1])
+						{
+							theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::MID_DETAILS);
+						}
+						else
+						{
+							theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::LOW_DETAILS);
+						}
 					}
 				}
+				else
+				{
+					//cout << "Culling!" << endl;
+					theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::NO_DETAILS);
+				}
 			}
-			else
+
+			if (KeyboardController::GetInstance()->IsKeyDown('2'))
 			{
-				//cout << "Culling!" << endl;
-				theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::NO_DETAILS);
+				theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::HIGH_DETAILS);
 			}
 		}
 		//cout << endl;
@@ -236,12 +241,12 @@ void CSpatialPartition::Render(Vector3 theCameraPosition, Vector3 theCameraTarge
 			Vector3 gridPos(gridXPos, 0.f, gridZPos);
 
 			// Do Frustum Culling. We only render the grid if it is in the Frustum
-			if (CFrustumCulling::GetInstance()->isBoxInFrustum(gridPos, xGridSize, zGridSize))		// || EnableVisibilityCheck)
+			if (CFrustumCulling::GetInstance()->isBoxInFrustum(gridPos, xGridSize, zGridSize))
 			{
 				if (theGrid[i*zNumOfGrid + j].GetNumOfObject() > 0)
 				{
 					// Demonstrate that frustum culling is working
-				//	cout << "Frustum Culling works!" << endl;
+				    //	cout << "Frustum Culling works!" << endl;
 					modelStack.PushMatrix();
 					modelStack.Translate((float)(xGridSize*i - (xSize >> 1) + (xGridSize >> 1)), 0.0f, (float)(zGridSize*j - (zSize >> 1) + (zGridSize >> 1)));
 					modelStack.PushMatrix();

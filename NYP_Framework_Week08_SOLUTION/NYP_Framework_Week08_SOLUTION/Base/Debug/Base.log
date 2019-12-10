@@ -1,1 +1,6 @@
-﻿
+﻿  SpatialPartition.cpp
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week08_solution\nyp_framework_week08_solution\base\source\spatialpartition\spatialpartition.cpp(170): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+c:\users\kian marvi\documents\nyp_gdt\agdev\assignment\nyp_framework_week08_solution\nyp_framework_week08_solution\base\source\spatialpartition\spatialpartition.cpp(244): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+Application.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  Base.vcxproj -> C:\Users\Kian Marvi\Documents\NYP_GDT\AGDEV\Assignment\NYP_Framework_Week08_SOLUTION\NYP_Framework_Week08_SOLUTION\Debug\Base.exe
