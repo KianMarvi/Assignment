@@ -50,7 +50,7 @@ void CLaserBlaster::Discharge(Vector3 position, Vector3 target, CPlayerInfo* _so
 											_direction,
 											1.0f,		// Length of laser
 											200.0f,		// Life of laser
-											1.0f,		// Speed of laser
+											10.0f,		// Speed of laser
 											_source);
 			aLaser->SetIsLaser(true);
 			aLaser->SetLength(10.0f);

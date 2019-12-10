@@ -5,6 +5,11 @@
 #include "EntityBase.h"
 #include "SingletonTemplate.h"
 #include "../FPSCamera.h"
+#include "../TextEntity.h"
+#include "../Application.h"
+#include <iostream>
+#include <string>
+#include <sstream>
 
 class CSpatialPartition : public Singleton<CSpatialPartition>
 {
@@ -95,7 +100,16 @@ protected:
 	float yOffset;
 	std::string _meshName; // Name of the mesh
 
-	bool EnableVisibilityCheck;
+	float halfWindowWidth;
+	float halfWindowHeight;
+	float fontSize = 25.0f;
+	float halfFontSize;
+
+	TextEntity* textObject[2];
+
+	std::ostringstream displayText;
+
+//	bool EnableVisibilityCheck;
 
 	// Define the mesh render mode
 	CGrid::SMeshRenderMode meshRenderMode;

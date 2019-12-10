@@ -27,8 +27,14 @@ CSpatialPartition::CSpatialPartition(void)
 	, yOffset(0.0f)
 	, _meshName("")
 	, theCamera(NULL)
-	, EnableVisibilityCheck(true)
+	, halfWindowWidth(Application::GetInstance().GetWindowWidth() * 0.5f)
+	, halfWindowHeight(Application::GetInstance().GetWindowHeight() * 0.5f)
+	, fontSize(25.f)
+	, halfFontSize(fontSize * 0.5f)
 {
+	textObject[0] = Create::Text2DObject("text", Vector3(-halfWindowWidth / 2.0f, -halfWindowHeight + fontSize + halfFontSize, 0.0f), "", Vector3(fontSize, fontSize, fontSize), Color(0.0f, 1.0f, 0.0f));
+	textObject[1] = Create::Text2DObject("text", Vector3(-halfWindowWidth / 2.0f, -halfWindowHeight + fontSize + halfFontSize + 30.f, 0.0f), "", Vector3(fontSize, fontSize, fontSize), Color(0.0f, 1.0f, 0.0f));
+
 }
 
 /********************************************************************************
@@ -153,60 +159,43 @@ Update the spatial partition
 ********************************************************************************/
 void CSpatialPartition::Update(void)
 {
+
+	CFrustumCulling::GetInstance()->Update(theCamera->GetCameraPos(), theCamera->GetCameraTarget(), theCamera->GetCameraUp());
 	//cout << "Rendering these grids:" << endl;
-	for (int i = 0; i<xNumOfGrid; i++)
+	for (int i = 0; i < xNumOfGrid; i++)
 	{
 		for (int j = 0; j < zNumOfGrid; j++)
 		{
 			// Update the grid
 			theGrid[i*zNumOfGrid + j].Update(&MigrationList);
+
 			float gridXPos = (float)(xGridSize* i + (xGridSize >> 1) - (xSize >> 1));
 			float gridZPos = (float)(zGridSize* j + (zGridSize >> 1) - (zSize >> 1));
 			Vector3 gridPos(gridXPos, 0.f, gridZPos);
-			float distance = CalculateDistanceSquare(&(theCamera->GetCameraPos()), i, j);
-			// Enable Frustum Culling. We only render the grid if it is in the Frustum'
-			if (KeyboardController::GetInstance()->IsKeyDown('1'))
+
+			// Do Frustum Culling. We only render the grid if it is in the Frustum
+			if (CFrustumCulling::GetInstance()->isBoxInFrustum(gridPos, xGridSize, zGridSize))
 			{
-				if (CFrustumCulling::GetInstance()->isBoxInFrustum(gridPos, xGridSize, zGridSize))
+				if (theGrid[i*zNumOfGrid + j].GetNumOfObject() > 0)
 				{
-					if (theGrid[i*zNumOfGrid + j].GetNumOfObject() > 0)
+					float distance = CalculateDistanceSquare(&(theCamera->GetCameraPos()), i, j);
+					if (distance < LevelOfDetails_Distances[0])
 					{
-						if (distance < LevelOfDetails_Distances[0])
-						{
-							theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::HIGH_DETAILS);
-						}
-						else if (distance < LevelOfDetails_Distances[1])
-						{
-							theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::MID_DETAILS);
-						}
-						else
-						{
-							theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::LOW_DETAILS);
-						}
+						theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::HIGH_DETAILS);
+					}
+					else if (distance < LevelOfDetails_Distances[1])
+					{
+						theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::MID_DETAILS);
+					}
+					else
+					{
+						theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::LOW_DETAILS);
 					}
 				}
-				else
-				{
-					//cout << "Culling!" << endl;
-					theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::NO_DETAILS);
-				}
 			}
-
-			// Disable frustum culling
-			if (KeyboardController::GetInstance()->IsKeyDown('2'))
+			else
 			{
-				if (distance < LevelOfDetails_Distances[0])
-				{
-					theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::HIGH_DETAILS);
-				}
-				else if (distance < LevelOfDetails_Distances[1])
-				{
-					theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::MID_DETAILS);
-				}
-				else
-				{
-					theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::LOW_DETAILS);
-				}
+				theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::NO_DETAILS);
 			}
 		}
 		//cout << endl;

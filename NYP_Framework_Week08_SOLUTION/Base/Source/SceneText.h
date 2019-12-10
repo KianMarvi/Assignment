@@ -14,6 +14,7 @@
 #include "Minimap\Minimap.h"
 #include "CameraEffects\CameraEffects.h"
 #include "HardwareAbstraction\Mouse.h"
+#include "SpatialPartition/Grid.h"
 
 class ShaderProgram;
 class SceneManager;
@@ -41,14 +42,17 @@ private:
 	CPlayerInfo* playerInfo;
 	GroundEntity* groundEntity;
 	FPSCamera camera;
+	FPSCamera camera2;
 	ostringstream DisplayText;
-	TextEntity* textObj[3];
+	TextEntity* textObj[4];
 	Light* lights[2];
 
 	CKeyboard* theKeyboard;
 	CMouse* theMouse;
 	CMinimap* theMinimap;
 	CCameraEffects* theCameraEffects;
+
+	CGrid* theGrid;
 
 	GenericEntity* theCube;
 //	CEnemy3D* anEnemy3D;	// This is the CEnemy class for 3D use.

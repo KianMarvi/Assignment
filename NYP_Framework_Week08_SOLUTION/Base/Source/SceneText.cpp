@@ -37,6 +37,7 @@ SceneText::SceneText()
 	, theCameraEffects(NULL)
 	, theMouse(NULL)
 	, theKeyboard(NULL)
+	, theGrid(NULL)
 {
 }
 
@@ -45,6 +46,7 @@ SceneText::SceneText(SceneManager* _sceneMgr)
 	, theCameraEffects(NULL)
 	, theMouse(NULL)
 	, theKeyboard(NULL)
+	, theGrid(NULL)
 {
 	_sceneMgr->AddScene("Start", this);
 }
@@ -70,6 +72,11 @@ SceneText::~SceneText()
 	{
 		delete theKeyboard;
 		theKeyboard = NULL;
+	}
+	if (theGrid)
+	{
+		delete theGrid;
+		theGrid = NULL;
 	}
 	// Delete the scene graph
 	CSceneGraph::GetInstance()->Destroy();
@@ -159,6 +166,9 @@ void SceneText::Init()
 	playerInfo->AttachCamera(&camera);
 	GraphicsManager::GetInstance()->AttachCamera(&camera);
 
+	// Second camera
+	camera2.Init(Vector3(0, 1000, 10), Vector3(0, 0, 0), Vector3(0, 1, 0));
+
 	// Load all the meshes
 	MeshBuilder::GetInstance()->GenerateAxes("reference");
 	MeshBuilder::GetInstance()->GenerateCrossHair("crosshair");
@@ -170,8 +180,11 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GenerateRing("ring", Color(1, 0, 1), 36, 1, 0.5f);
 	MeshBuilder::GetInstance()->GenerateSphere("lightball", Color(1, 1, 1), 18, 36, 1.f);
 	MeshBuilder::GetInstance()->GenerateSphere("sphere", Color(1, 0, 0), 18, 36, 1.f);
+	MeshBuilder::GetInstance()->GenerateSphere("greenSphere", Color(0, 1, 0), 18, 36, 1.f);
 	MeshBuilder::GetInstance()->GenerateCone("cone", Color(0.5f, 1, 0.3f), 36, 10.f, 10.f);
-	MeshBuilder::GetInstance()->GenerateCube("cube", Color(1.0f, 1.0f, 0.0f), 1.0f);
+	MeshBuilder::GetInstance()->GenerateCube("redcube", Color(1.0f, 0.0f, 0.0f), 1.0f);
+	MeshBuilder::GetInstance()->GenerateCube("yellowcube", Color(1.0f, 1.0f, 0.0f), 1.0f);
+	MeshBuilder::GetInstance()->GenerateCube("greencube", Color(0.0f, 1.0f, 0.0f), 1.0f);
 	MeshBuilder::GetInstance()->GetMesh("cone")->material.kDiffuse.Set(0.99f, 0.99f, 0.99f);
 	MeshBuilder::GetInstance()->GetMesh("cone")->material.kSpecular.Set(0.f, 0.f, 0.f);
 	MeshBuilder::GetInstance()->GenerateQuad("GRASS_DARKGREEN", Color(1, 1, 1), 1.f);
@@ -366,6 +379,8 @@ void SceneText::Update(double dt)
 	DisplayText << "Sway:" << playerInfo->m_fCameraSwayAngle;
 	textObj[2]->SetText(DisplayText.str());
 
+
+
 	// Update camera effects
 	theCameraEffects->Update((float)dt);
 }
@@ -379,6 +394,12 @@ void SceneText::Render()
 	// Setup 3D pipeline then render 3D
 	GraphicsManager::GetInstance()->SetPerspectiveProjection(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f);
 	GraphicsManager::GetInstance()->AttachCamera(&camera);
+
+	if (KeyboardController::GetInstance()->IsKeyDown(VK_RETURN))
+	{
+		GraphicsManager::GetInstance()->SetPerspectiveProjection(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f);
+		GraphicsManager::GetInstance()->AttachCamera(&camera2);
+	}
 
 	// PreRenderMesh
 	RenderHelper::PreRenderMesh();
@@ -441,7 +462,7 @@ Create Entities to display in this game
 void SceneText::CreateEntities(void)
 {
 	// Add a cube to act as the torso of a NPC
-	GenericEntity* pNPCTorso = Create::Entity("cube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	GenericEntity* pNPCTorso = Create::Entity("yellowcube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
 	pNPCTorso->SetCollider(true);
 	pNPCTorso->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
 
@@ -461,28 +482,28 @@ void SceneText::CreateEntities(void)
 	anotherNode->SetTranslate(Vector3(0.0f, 1.0f, 0.0f));
 
 	// Add a cube to act as the left leg of the NPC
-	pNPCPart = Create::Entity("cube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart = Create::Entity("yellowcube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
 	pNPCPart->SetCollider(true);
 	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
 	anotherNode = pNPCSceneNode->AddChild(pNPCPart);
 	anotherNode->SetTranslate(Vector3(-0.6f, -1.0f, 0.0f));
 
 	// Add a cube to act as the right leg of the NPC
-	pNPCPart = Create::Entity("cube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart = Create::Entity("yellowcube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
 	pNPCPart->SetCollider(true);
 	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
 	anotherNode = pNPCSceneNode->AddChild(pNPCPart);
 	anotherNode->SetTranslate(Vector3(0.6f, -1.0f, 0.0f));
 
 	// Add a cube to act as the left arm of the NPC
-	pNPCPart = Create::Entity("cube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart = Create::Entity("yellowcube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
 	pNPCPart->SetCollider(true);
 	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
 	anotherNode = pNPCSceneNode->AddChild(pNPCPart);
 	anotherNode->SetTranslate(Vector3(-1.2f, 0.0f, 0.0f));
 
 	// Add a cube to act as the right arm of the NPC
-	pNPCPart = Create::Entity("cube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart = Create::Entity("yellowcube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
 	pNPCPart->SetCollider(true);
 	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
 	anotherNode = pNPCSceneNode->AddChild(pNPCPart);
@@ -495,13 +516,12 @@ void SceneText::CreateEntities(void)
 	CSceneGraph::GetInstance()->PrintSelf();
 
 	// Create a CEnemy instance
-	//anEnemy3D = Create::Enemy3D("cube", Vector3(0.0f, 0.0f, -20.0f));
 	CEnemy3D* anEnemy3D;	// This is the CEnemy class for 3D use.
-	anEnemy3D = Create::Enemy3D("cube", Vector3(5.0f, 0.0f, 5.0f), Vector3(1.0f, 1.0f, 1.0f), false);
-	anEnemy3D->InitLOD("cube", "sphere", "cube");
+	anEnemy3D = Create::Enemy3D("greencube", Vector3(5.0f, 0.0f, 5.0f), Vector3(10.0f, 0.5f, 2.0f), false);
+	anEnemy3D->InitLOD("greencube", "yellowcube", "redcube");
 	anEnemy3D->Init();
 	//anEnemy3D->SetPos(Vector3(0, 0, 0));
-	anEnemy3D->SetSpeed(20.0);
+	anEnemy3D->SetSpeed(10.0);
 	anEnemy3D->SetCollider(true);
 	anEnemy3D->SetAABB(Vector3(0.5, 0.5, 0.5), Vector3(-0.5, -0.5, -0.5));
 
@@ -519,7 +539,7 @@ void SceneText::CreateEntities(void)
 
 	// Add a sphere to act as the head of the NPC
 	pNPCPart = Create::Entity("sphere", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
-	pNPCPart->InitLOD("sphere", "cube", "sphere");
+	pNPCPart->InitLOD("sphere", "yellowcube", "sphere");
 	pNPCPart->SetCollider(true);
 	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
 	anotherNode = pNPCSceneNode->AddChild(pNPCPart);
@@ -530,27 +550,27 @@ void SceneText::CreateEntities(void)
 	anotherNode->SetUpdateTransformation(aRotateMtx);
 
 	srand(NULL);
-	for (int i = 0; i < 100; i++)
-	{
-		anEnemy3D = Create::Enemy3D("sphere", 
-									Vector3(rand() % 1000 - 500.0f, 0.0f, rand() % 1000 - 500.0f), 
-									Vector3(1.0f, 1.0f, 1.0f), 
-									false);
-		anEnemy3D->InitLOD("sphere", "cube", "sphere");
-		anEnemy3D->Init();
-		//anEnemy3D->SetPos(Vector3(0, 0, 0));
-		anEnemy3D->SetSpeed(10.0f);
-		anEnemy3D->SetCollider(true);
-		anEnemy3D->SetAABB(Vector3(0.5, 0.5, 0.5), Vector3(-0.5, -0.5, -0.5));
+	//for (int i = 0; i < 100; i++)
+	//{
+	//	anEnemy3D = Create::Enemy3D("sphere", 
+	//								Vector3(rand() % 1000 - 500.0f, 0.0f, rand() % 1000 - 500.0f), 
+	//								Vector3(1.0f, 1.0f, 1.0f), 
+	//								false);
+	//	anEnemy3D->InitLOD("sphere", "cube", "sphere");
+	//	anEnemy3D->Init();
+	//	//anEnemy3D->SetPos(Vector3(0, 0, 0));
+	//	anEnemy3D->SetSpeed(10.0f);
+	//	anEnemy3D->SetCollider(true);
+	//	anEnemy3D->SetAABB(Vector3(0.5, 0.5, 0.5), Vector3(-0.5, -0.5, -0.5));
 
-		anEnemy3D->SetTerrain(groundEntity);
+	//	anEnemy3D->SetTerrain(groundEntity);
 
-		// Add the entity into the Spatial Partition
-		CSpatialPartition::GetInstance()->Add(anEnemy3D);
+	//	// Add the entity into the Spatial Partition
+	//	CSpatialPartition::GetInstance()->Add(anEnemy3D);
 
-		pNPCSceneNode = CSceneGraph::GetInstance()->AddNode(anEnemy3D);
-		pNPCSceneNode->SetTranslate(Vector3(0.0f, 0.0f, 0.0f));
-	}
+	//	pNPCSceneNode = CSceneGraph::GetInstance()->AddNode(anEnemy3D);
+	//	pNPCSceneNode->SetTranslate(Vector3(0.0f, 0.0f, 0.0f));
+	//}
 
 	CSceneGraph::GetInstance()->ReCalc_AABB();
 }
