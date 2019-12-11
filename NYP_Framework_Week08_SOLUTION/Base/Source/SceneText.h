@@ -52,8 +52,6 @@ private:
 	CMinimap* theMinimap;
 	CCameraEffects* theCameraEffects;
 
-	CGrid* theGrid;
-
 	GenericEntity* theCube;
 //	CEnemy3D* anEnemy3D;	// This is the CEnemy class for 3D use.
 

@@ -3,11 +3,12 @@
 
 #include "EntityBase.h"
 #include "Vector3.h"
+#include "../LevelOfDetails/LevelOfDetails.h"
 #include <string>
 
 class Mesh;
 
-class SkyBoxEntity : public EntityBase
+class SkyBoxEntity : public EntityBase, CLevelOfDetails
 {
 public:
 	enum SIDES

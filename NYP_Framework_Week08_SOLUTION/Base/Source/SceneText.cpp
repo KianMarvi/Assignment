@@ -37,7 +37,6 @@ SceneText::SceneText()
 	, theCameraEffects(NULL)
 	, theMouse(NULL)
 	, theKeyboard(NULL)
-	, theGrid(NULL)
 {
 }
 
@@ -46,7 +45,6 @@ SceneText::SceneText(SceneManager* _sceneMgr)
 	, theCameraEffects(NULL)
 	, theMouse(NULL)
 	, theKeyboard(NULL)
-	, theGrid(NULL)
 {
 	_sceneMgr->AddScene("Start", this);
 }
@@ -73,11 +71,7 @@ SceneText::~SceneText()
 		delete theKeyboard;
 		theKeyboard = NULL;
 	}
-	if (theGrid)
-	{
-		delete theGrid;
-		theGrid = NULL;
-	}
+
 	// Delete the scene graph
 	CSceneGraph::GetInstance()->Destroy();
 	// Delete the Spatial Partition
@@ -167,7 +161,7 @@ void SceneText::Init()
 	GraphicsManager::GetInstance()->AttachCamera(&camera);
 
 	// Second camera
-	camera2.Init(Vector3(0, 1000, 10), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera2.Init(Vector3(0, 700, 10), Vector3(0, 0, 0), Vector3(0, 1, 0));
 
 	// Load all the meshes
 	MeshBuilder::GetInstance()->GenerateAxes("reference");
@@ -189,8 +183,6 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GetMesh("cone")->material.kSpecular.Set(0.f, 0.f, 0.f);
 	MeshBuilder::GetInstance()->GenerateQuad("GRASS_DARKGREEN", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GetMesh("GRASS_DARKGREEN")->textureID = LoadTGA("Image//soil_ground.tga");
-	MeshBuilder::GetInstance()->GenerateQuad("GEO_GRASS_LIGHTGREEN", Color(1, 1, 1), 1.f);
-	MeshBuilder::GetInstance()->GetMesh("GEO_GRASS_LIGHTGREEN")->textureID = LoadTGA("Image//soil_ground.tga");
 
 	MeshBuilder::GetInstance()->GenerateQuad("SKYBOX_FRONT", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GenerateQuad("SKYBOX_BACK", Color(1, 1, 1), 1.f);
@@ -205,13 +197,13 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GetMesh("SKYBOX_TOP")->textureID = LoadTGA("Image//sist_up.tga");
 	MeshBuilder::GetInstance()->GetMesh("SKYBOX_BOTTOM")->textureID = LoadTGA("Image//sist_dn.tga");
 
-	MeshBuilder::GetInstance()->GenerateQuad("GRIDMESH", Color(1, 1, 0), 1.f);
+	MeshBuilder::GetInstance()->GenerateQuad("GRIDMESH_YELLOW", Color(1, 1, 0), 1.f);
 	MeshBuilder::GetInstance()->GenerateRay("laser", 1.0f);
 
 	// Set up the Spatial Partition and pass it to the EntityManager to manage
 	CSpatialPartition::GetInstance()->Init(100, 100, 10, 10);
 	CSpatialPartition::GetInstance()->SetMeshRenderMode(CGrid::FILL);
-	CSpatialPartition::GetInstance()->SetMesh("GRIDMESH");
+	CSpatialPartition::GetInstance()->SetMesh("GRIDMESH_YELLOW");
 	CSpatialPartition::GetInstance()->SetCamera(&camera);
 	CSpatialPartition::GetInstance()->SetLevelOfDetails(10000.0f, 160000.0f);
 
@@ -225,7 +217,8 @@ void SceneText::Init()
 	Create::Entity("ring", Vector3(0.0f, 0.0f, 0.0f)); // Reference
 
 
-	groundEntity = Create::Ground("GRASS_DARKGREEN", "GEO_GRASS_LIGHTGREEN");
+	groundEntity = Create::Ground("GRASS_DARKGREEN", "GRASS_DARKGREEN");
+	//groundEntity->Ini
 //	Create::Text3DObject("text", Vector3(0.0f, 0.0f, 0.0f), "DM2210", Vector3(10.0f, 10.0f, 10.0f), Color(0, 1, 1));
 	Create::Sprite2DObject("crosshair", Vector3(0.0f, 0.0f, 0.0f), Vector3(10.0f, 10.0f, 10.0f));
 
@@ -234,6 +227,7 @@ void SceneText::Init()
 											 "SKYBOX_TOP", "SKYBOX_BOTTOM");
 
 	// Customise the ground entity
+	//groundEntity->InitLOD("GEO_GRASS_LIGHTGREEN", "GEO_GRASS_LIGHTGREEN", "GEO_GRASS_LIGHTGREEN");
 	groundEntity->SetPosition(Vector3(0, -10, 0));
 	groundEntity->SetScale(Vector3(100.0f, 100.0f, 100.0f));
 	groundEntity->SetGrids(Vector3(10.0f, 1.0f, 10.0f));
@@ -462,7 +456,9 @@ Create Entities to display in this game
 void SceneText::CreateEntities(void)
 {
 	// Add a cube to act as the torso of a NPC
-	GenericEntity* pNPCTorso = Create::Entity("yellowcube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	GenericEntity* pNPCTorso = Create::Entity("greencube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+
+	pNPCTorso->InitLOD("greencube", "yellowcube", "redcube");
 	pNPCTorso->SetCollider(true);
 	pNPCTorso->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
 
@@ -476,34 +472,39 @@ void SceneText::CreateEntities(void)
 
 	// Add a sphere to act as the head of the NPC
 	GenericEntity* pNPCPart = Create::Entity("sphere", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart->InitLOD("sphere", "sphere", "sphere");
 	pNPCPart->SetCollider(true);
 	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
 	CSceneNode* anotherNode = pNPCSceneNode->AddChild(pNPCPart);
 	anotherNode->SetTranslate(Vector3(0.0f, 1.0f, 0.0f));
 
 	// Add a cube to act as the left leg of the NPC
-	pNPCPart = Create::Entity("yellowcube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart = Create::Entity("greencube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart->InitLOD("greencube", "yellowcube", "redcube");
 	pNPCPart->SetCollider(true);
 	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
 	anotherNode = pNPCSceneNode->AddChild(pNPCPart);
 	anotherNode->SetTranslate(Vector3(-0.6f, -1.0f, 0.0f));
 
 	// Add a cube to act as the right leg of the NPC
-	pNPCPart = Create::Entity("yellowcube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart = Create::Entity("greencube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart->InitLOD("greencube", "yellowcube", "redcube");
 	pNPCPart->SetCollider(true);
 	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
 	anotherNode = pNPCSceneNode->AddChild(pNPCPart);
 	anotherNode->SetTranslate(Vector3(0.6f, -1.0f, 0.0f));
 
 	// Add a cube to act as the left arm of the NPC
-	pNPCPart = Create::Entity("yellowcube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart = Create::Entity("greencube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart->InitLOD("greencube", "yellowcube", "redcube");
 	pNPCPart->SetCollider(true);
 	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
 	anotherNode = pNPCSceneNode->AddChild(pNPCPart);
 	anotherNode->SetTranslate(Vector3(-1.2f, 0.0f, 0.0f));
 
 	// Add a cube to act as the right arm of the NPC
-	pNPCPart = Create::Entity("yellowcube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart = Create::Entity("greencube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+	pNPCPart->InitLOD("greencube", "yellowcube", "redcube");
 	pNPCPart->SetCollider(true);
 	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
 	anotherNode = pNPCSceneNode->AddChild(pNPCPart);

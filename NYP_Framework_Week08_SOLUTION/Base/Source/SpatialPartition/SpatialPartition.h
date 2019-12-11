@@ -37,6 +37,9 @@ public:
 	// ApplyMesh
 	void ApplyMesh(void);
 
+	void EnableFrustumCulling();
+	void DisableFrustumCulling();
+
 	// Update the spatial partition
 	void Update(void);
 	// Render the spatial partition
