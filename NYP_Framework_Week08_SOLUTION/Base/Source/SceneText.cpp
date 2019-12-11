@@ -176,9 +176,7 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GenerateSphere("sphere", Color(1, 0, 0), 18, 36, 1.f);
 	MeshBuilder::GetInstance()->GenerateSphere("greenSphere", Color(0, 1, 0), 18, 36, 1.f);
 	MeshBuilder::GetInstance()->GenerateCone("cone", Color(0.5f, 1, 0.3f), 36, 10.f, 10.f);
-	MeshBuilder::GetInstance()->GenerateCube("redcube", Color(1.0f, 0.0f, 0.0f), 1.0f);
-	MeshBuilder::GetInstance()->GenerateCube("yellowcube", Color(1.0f, 1.0f, 0.0f), 1.0f);
-	MeshBuilder::GetInstance()->GenerateCube("greencube", Color(0.0f, 1.0f, 0.0f), 1.0f);
+	MeshBuilder::GetInstance()->GenerateCube("cube", Color(1.0f, 1.0f, 0.0f), 1.0f);
 	MeshBuilder::GetInstance()->GetMesh("cone")->material.kDiffuse.Set(0.99f, 0.99f, 0.99f);
 	MeshBuilder::GetInstance()->GetMesh("cone")->material.kSpecular.Set(0.f, 0.f, 0.f);
 	MeshBuilder::GetInstance()->GenerateQuad("GRASS_DARKGREEN", Color(1, 1, 1), 1.f);
@@ -197,15 +195,24 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GetMesh("SKYBOX_TOP")->textureID = LoadTGA("Image//sist_up.tga");
 	MeshBuilder::GetInstance()->GetMesh("SKYBOX_BOTTOM")->textureID = LoadTGA("Image//sist_dn.tga");
 
-	MeshBuilder::GetInstance()->GenerateQuad("GRIDMESH_YELLOW", Color(1, 1, 0), 1.f);
+	MeshBuilder::GetInstance()->GenerateQuad("GRIDMESH", Color(1, 1, 0), 1.f);
 	MeshBuilder::GetInstance()->GenerateRay("laser", 1.0f);
+
+	MeshBuilder::GetInstance()->GenerateOBJ("VASE_HIGH", "Image//Vase_High.obj");
+	MeshBuilder::GetInstance()->GetMesh("VASE_HIGH")->textureID = LoadTGA("Image//chair.tga");
+
+	MeshBuilder::GetInstance()->GenerateOBJ("VASE_MID", "Image//Vase_Mid.obj");
+	MeshBuilder::GetInstance()->GetMesh("VASE_MID")->textureID = LoadTGA("Image//chair.tga");
+
+	MeshBuilder::GetInstance()->GenerateOBJ("VASE_LOW", "Image//Vase_Low.obj");
+	MeshBuilder::GetInstance()->GetMesh("VASE_LOW")->textureID = LoadTGA("Image//chair.tga");
 
 	// Set up the Spatial Partition and pass it to the EntityManager to manage
 	CSpatialPartition::GetInstance()->Init(100, 100, 10, 10);
 	CSpatialPartition::GetInstance()->SetMeshRenderMode(CGrid::FILL);
-	CSpatialPartition::GetInstance()->SetMesh("GRIDMESH_YELLOW");
+	CSpatialPartition::GetInstance()->SetMesh("GRIDMESH");
 	CSpatialPartition::GetInstance()->SetCamera(&camera);
-	CSpatialPartition::GetInstance()->SetLevelOfDetails(10000.0f, 160000.0f);
+	CSpatialPartition::GetInstance()->SetLevelOfDetails(5000.0f, 100000.0f);
 
 	// Initialise the Frustum Culling
 	CFrustumCulling::GetInstance()->Init(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f);
@@ -217,7 +224,7 @@ void SceneText::Init()
 	Create::Entity("ring", Vector3(0.0f, 0.0f, 0.0f)); // Reference
 
 
-	groundEntity = Create::Ground("GRASS_DARKGREEN", "GRASS_DARKGREEN");
+	
 	//groundEntity->Ini
 //	Create::Text3DObject("text", Vector3(0.0f, 0.0f, 0.0f), "DM2210", Vector3(10.0f, 10.0f, 10.0f), Color(0, 1, 1));
 	Create::Sprite2DObject("crosshair", Vector3(0.0f, 0.0f, 0.0f), Vector3(10.0f, 10.0f, 10.0f));
@@ -228,6 +235,7 @@ void SceneText::Init()
 
 	// Customise the ground entity
 	//groundEntity->InitLOD("GEO_GRASS_LIGHTGREEN", "GEO_GRASS_LIGHTGREEN", "GEO_GRASS_LIGHTGREEN");
+	groundEntity = Create::Ground("GRASS_DARKGREEN", "GRASS_DARKGREEN");
 	groundEntity->SetPosition(Vector3(0, -10, 0));
 	groundEntity->SetScale(Vector3(100.0f, 100.0f, 100.0f));
 	groundEntity->SetGrids(Vector3(10.0f, 1.0f, 10.0f));
@@ -456,9 +464,12 @@ Create Entities to display in this game
 void SceneText::CreateEntities(void)
 {
 	// Add a cube to act as the torso of a NPC
-	GenericEntity* pNPCTorso = Create::Entity("greencube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
 
-	pNPCTorso->InitLOD("greencube", "yellowcube", "redcube");
+
+
+	GenericEntity* pNPCTorso = Create::Entity("VASE_HIGH", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
+
+	pNPCTorso->InitLOD("VASE_HIGH", "VASE_MID", "VASE_LOW");
 	pNPCTorso->SetCollider(true);
 	pNPCTorso->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
 
@@ -470,94 +481,21 @@ void SceneText::CreateEntities(void)
 	aRotateMtx->SetSteps(-60, 60);
 	pNPCSceneNode->SetUpdateTransformation(aRotateMtx);
 
-	// Add a sphere to act as the head of the NPC
-	GenericEntity* pNPCPart = Create::Entity("sphere", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
-	pNPCPart->InitLOD("sphere", "sphere", "sphere");
-	pNPCPart->SetCollider(true);
-	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
-	CSceneNode* anotherNode = pNPCSceneNode->AddChild(pNPCPart);
-	anotherNode->SetTranslate(Vector3(0.0f, 1.0f, 0.0f));
+	// Add the entity into the Spatial Partition
+	CSpatialPartition::GetInstance()->Add(pNPCTorso);
 
-	// Add a cube to act as the left leg of the NPC
-	pNPCPart = Create::Entity("greencube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
-	pNPCPart->InitLOD("greencube", "yellowcube", "redcube");
-	pNPCPart->SetCollider(true);
-	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
-	anotherNode = pNPCSceneNode->AddChild(pNPCPart);
-	anotherNode->SetTranslate(Vector3(-0.6f, -1.0f, 0.0f));
-
-	// Add a cube to act as the right leg of the NPC
-	pNPCPart = Create::Entity("greencube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
-	pNPCPart->InitLOD("greencube", "yellowcube", "redcube");
-	pNPCPart->SetCollider(true);
-	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
-	anotherNode = pNPCSceneNode->AddChild(pNPCPart);
-	anotherNode->SetTranslate(Vector3(0.6f, -1.0f, 0.0f));
-
-	// Add a cube to act as the left arm of the NPC
-	pNPCPart = Create::Entity("greencube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
-	pNPCPart->InitLOD("greencube", "yellowcube", "redcube");
-	pNPCPart->SetCollider(true);
-	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
-	anotherNode = pNPCSceneNode->AddChild(pNPCPart);
-	anotherNode->SetTranslate(Vector3(-1.2f, 0.0f, 0.0f));
-
-	// Add a cube to act as the right arm of the NPC
-	pNPCPart = Create::Entity("greencube", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
-	pNPCPart->InitLOD("greencube", "yellowcube", "redcube");
-	pNPCPart->SetCollider(true);
-	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
-	anotherNode = pNPCSceneNode->AddChild(pNPCPart);
-	anotherNode->SetTranslate(Vector3(1.2f, 0.0f, 0.0f));
-	aRotateMtx = new CUpdateTransformation();
-	aRotateMtx->ApplyUpdate(1.0f, 0, 1, 0);
-	aRotateMtx->SetSteps(-60, 60);
-	anotherNode->SetUpdateTransformation(aRotateMtx);
-
+	
 	CSceneGraph::GetInstance()->PrintSelf();
 
-	// Create a CEnemy instance
-	CEnemy3D* anEnemy3D;	// This is the CEnemy class for 3D use.
-	anEnemy3D = Create::Enemy3D("greencube", Vector3(5.0f, 0.0f, 5.0f), Vector3(10.0f, 0.5f, 2.0f), false);
-	anEnemy3D->InitLOD("greencube", "yellowcube", "redcube");
-	anEnemy3D->Init();
-	//anEnemy3D->SetPos(Vector3(0, 0, 0));
-	anEnemy3D->SetSpeed(10.0);
-	anEnemy3D->SetCollider(true);
-	anEnemy3D->SetAABB(Vector3(0.5, 0.5, 0.5), Vector3(-0.5, -0.5, -0.5));
-
-	anEnemy3D->SetTerrain(groundEntity);
-
-	// Add the entity into the Spatial Partition
-	CSpatialPartition::GetInstance()->Add(anEnemy3D);
-
-	pNPCSceneNode = CSceneGraph::GetInstance()->AddNode(anEnemy3D);
-	pNPCSceneNode->SetTranslate(Vector3(0.0f, 0.0f, 0.0f));
-	aRotateMtx = new CUpdateTransformation();
-	aRotateMtx->ApplyUpdate(1.0f, 0, 1, 0);
-	aRotateMtx->SetSteps(-60, 60);
-	pNPCSceneNode->SetUpdateTransformation(aRotateMtx);
-
-	// Add a sphere to act as the head of the NPC
-	pNPCPart = Create::Entity("sphere", Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 1.0f, 1.0f), false);
-	pNPCPart->InitLOD("sphere", "yellowcube", "sphere");
-	pNPCPart->SetCollider(true);
-	pNPCPart->SetAABB(Vector3(0.45f, 0.45f, 0.45f), Vector3(-0.45f, -0.45f, -0.45f));
-	anotherNode = pNPCSceneNode->AddChild(pNPCPart);
-	anotherNode->SetTranslate(Vector3(0.0f, 1.0f, 0.0f));
-	aRotateMtx = new CUpdateTransformation();
-	aRotateMtx->ApplyUpdate(1.0f, 1, 0, 0);
-	aRotateMtx->SetSteps(-60, 60);
-	anotherNode->SetUpdateTransformation(aRotateMtx);
-
+	
 	srand(NULL);
 	for (int i = 0; i < 100; i++)
 	{
-		anEnemy3D = Create::Enemy3D("sphere", 
+		CEnemy3D* anEnemy3D = Create::Enemy3D("VASE_HIGH",
 									Vector3(rand() % 1000 - 500.0f, 0.0f, rand() % 1000 - 500.0f), 
 									Vector3(1.0f, 1.0f, 1.0f), 
 									false);
-		anEnemy3D->InitLOD("sphere", "yellowcube", "sphere");
+		anEnemy3D->InitLOD("VASE_HIGH", "VASE_MID", "VASE_LOW");
 		anEnemy3D->Init();
 		//anEnemy3D->SetPos(Vector3(0, 0, 0));
 		anEnemy3D->SetSpeed(10.0f);

@@ -34,7 +34,6 @@ CSpatialPartition::CSpatialPartition(void)
 {
 	textObject[0] = Create::Text2DObject("text", Vector3(-halfWindowWidth / 2.0f, -halfWindowHeight + fontSize + halfFontSize, 0.0f), "", Vector3(fontSize, fontSize, fontSize), Color(0.0f, 1.0f, 0.0f));
 	textObject[1] = Create::Text2DObject("text", Vector3(-halfWindowWidth / 2.0f, -halfWindowHeight + fontSize + halfFontSize + 30.f, 0.0f), "", Vector3(fontSize, fontSize, fontSize), Color(0.0f, 1.0f, 0.0f));
-	EnableFrustumCulling();
 }
 
 /********************************************************************************
@@ -168,25 +167,22 @@ void CSpatialPartition::EnableFrustumCulling()
 			float gridXPos = (float)(xGridSize* i + (xGridSize >> 1) - (xSize >> 1));
 			float gridZPos = (float)(zGridSize* j + (zGridSize >> 1) - (zSize >> 1));
 			Vector3 gridPos(gridXPos, 0.f, gridZPos);
-
+			
 			// Do Frustum Culling. We only render the grid if it is in the Frustum
 			if (CFrustumCulling::GetInstance()->isBoxInFrustum(gridPos, xGridSize, zGridSize))
 			{
-				if (theGrid[i*zNumOfGrid + j].GetNumOfObject() > 0)
+				float distance = CalculateDistanceSquare(&(theCamera->GetCameraPos()), i, j);
+				if (distance < LevelOfDetails_Distances[0])
 				{
-					float distance = CalculateDistanceSquare(&(theCamera->GetCameraPos()), i, j);
-					if (distance < LevelOfDetails_Distances[0])
-					{
-						theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::HIGH_DETAILS);
-					}
-					else if (distance < LevelOfDetails_Distances[1])
-					{
-						theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::MID_DETAILS);
-					}
-					else
-					{
-						theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::LOW_DETAILS);
-					}
+					theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::HIGH_DETAILS);
+				}
+				else if (distance < LevelOfDetails_Distances[1])
+				{
+					theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::MID_DETAILS);
+				}
+				else
+				{
+					theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::LOW_DETAILS);
 				}
 			}
 			else
@@ -235,10 +231,7 @@ void CSpatialPartition::Update(void)
 	//CFrustumCulling::GetInstance()->Update(theCamera->GetCameraPos(), theCamera->GetCameraTarget(), theCamera->GetCameraUp());
 	//cout << "Rendering these grids:" << endl;
 
-	if (KeyboardController::GetInstance()->IsKeyDown('1'))
-	{
-		EnableFrustumCulling();
-	}
+	EnableFrustumCulling();
 
 	if (KeyboardController::GetInstance()->IsKeyDown('2'))
 	{
