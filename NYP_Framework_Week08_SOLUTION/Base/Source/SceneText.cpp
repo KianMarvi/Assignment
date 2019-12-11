@@ -202,17 +202,17 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GetMesh("VASE_HIGH")->textureID = LoadTGA("Image//chair.tga");
 
 	MeshBuilder::GetInstance()->GenerateOBJ("VASE_MID", "Image//Vase_Mid.obj");
-	MeshBuilder::GetInstance()->GetMesh("VASE_MID")->textureID = LoadTGA("Image//chair.tga");
+	MeshBuilder::GetInstance()->GetMesh("VASE_MID")->textureID = LoadTGA("Image//toilet.tga");
 
 	MeshBuilder::GetInstance()->GenerateOBJ("VASE_LOW", "Image//Vase_Low.obj");
-	MeshBuilder::GetInstance()->GetMesh("VASE_LOW")->textureID = LoadTGA("Image//chair.tga");
+	MeshBuilder::GetInstance()->GetMesh("VASE_LOW")->textureID = LoadTGA("Image//bed.tga");
 
 	// Set up the Spatial Partition and pass it to the EntityManager to manage
 	CSpatialPartition::GetInstance()->Init(100, 100, 10, 10);
 	CSpatialPartition::GetInstance()->SetMeshRenderMode(CGrid::FILL);
 	CSpatialPartition::GetInstance()->SetMesh("GRIDMESH");
 	CSpatialPartition::GetInstance()->SetCamera(&camera);
-	CSpatialPartition::GetInstance()->SetLevelOfDetails(5000.0f, 100000.0f);
+	CSpatialPartition::GetInstance()->SetLevelOfDetails(10000.0f, 160000.0f);
 
 	// Initialise the Frustum Culling
 	CFrustumCulling::GetInstance()->Init(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f);
@@ -295,11 +295,11 @@ void SceneText::Update(double dt)
 		glEnable(GL_CULL_FACE);
 	if(KeyboardController::GetInstance()->IsKeyDown('2'))
 		glDisable(GL_CULL_FACE);*/
-	if(KeyboardController::GetInstance()->IsKeyDown('3'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	if(KeyboardController::GetInstance()->IsKeyDown('4'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	
+	//if(KeyboardController::GetInstance()->IsKeyDown('3'))
+	//	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//if(KeyboardController::GetInstance()->IsKeyDown('4'))
+	//	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//
 	if(KeyboardController::GetInstance()->IsKeyDown('5'))
 	{
 		lights[0]->type = Light::LIGHT_POINT;

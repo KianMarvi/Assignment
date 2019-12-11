@@ -223,6 +223,22 @@ void CSpatialPartition::DisableFrustumCulling()
 	}
 }
 
+void CSpatialPartition::DisableLOD()
+{
+	for (int i = 0; i < xNumOfGrid; i++)
+	{
+		for (int j = 0; j < zNumOfGrid; j++)
+		{
+			// Update the grid
+			theGrid[i*zNumOfGrid + j].Update(&MigrationList);
+
+			theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::HIGH_DETAILS);
+		}
+
+		//cout << endl;
+	}
+}
+
 /********************************************************************************
 Update the spatial partition
 ********************************************************************************/
@@ -231,13 +247,17 @@ void CSpatialPartition::Update(void)
 	//CFrustumCulling::GetInstance()->Update(theCamera->GetCameraPos(), theCamera->GetCameraTarget(), theCamera->GetCameraUp());
 	//cout << "Rendering these grids:" << endl;
 
+
 	EnableFrustumCulling();
 
 	if (KeyboardController::GetInstance()->IsKeyDown('2'))
 	{
 		DisableFrustumCulling();
 	}
-	
+	if (KeyboardController::GetInstance()->IsKeyDown('3'))
+	{
+		DisableLOD();
+	}
 
 	// If there are objects due for migration, then process them
 	if (MigrationList.empty() == false)

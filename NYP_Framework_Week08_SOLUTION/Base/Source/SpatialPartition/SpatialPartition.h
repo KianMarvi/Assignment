@@ -40,6 +40,8 @@ public:
 	void EnableFrustumCulling();
 	void DisableFrustumCulling();
 
+	void DisableLOD();
+
 	// Update the spatial partition
 	void Update(void);
 	// Render the spatial partition
