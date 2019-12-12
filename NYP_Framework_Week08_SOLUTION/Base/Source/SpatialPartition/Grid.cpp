@@ -152,6 +152,7 @@ void CGrid::Add(EntityBase* theObject)
 			return;
 	}
 	ListOfObjects.push_back( theObject );
+	ChangeGridColor();
 }
 
 /********************************************************************************
@@ -165,6 +166,7 @@ void CGrid::Remove(void)
 		// If you delete them here, then do not delete in Scene Graph or SceneText
 		delete ListOfObjects[i];
 		ListOfObjects[i] = NULL;
+		ChangeGridColor();
 	}
 	ListOfObjects.clear();
 }
@@ -183,6 +185,7 @@ bool CGrid::Remove(EntityBase* theObject)
 		if ((*it) == theObject)
 		{
 			it = ListOfObjects.erase(it);
+			ChangeGridColor();
 			return true;
 		}
 		else
@@ -289,3 +292,19 @@ void CGrid::PrintSelf(void)
 		//cout << "\tThis grid has no entities." << endl;
 	}
 }
+
+ void CGrid::ChangeGridColor()
+ {
+	 if (ListOfObjects.size() >= 1)
+	 {
+		 SetMesh("GRID_YELLOW");
+	 }
+	 if (ListOfObjects.size() >= 3)
+	 {
+		 SetMesh("GRID_ORANGE");
+	 }
+	 if (ListOfObjects.size() >= 5)
+	 {
+		 SetMesh("GRID_RED");
+	 }
+ }

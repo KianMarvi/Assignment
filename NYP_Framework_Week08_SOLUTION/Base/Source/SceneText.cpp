@@ -45,6 +45,7 @@ SceneText::SceneText(SceneManager* _sceneMgr)
 	, theCameraEffects(NULL)
 	, theMouse(NULL)
 	, theKeyboard(NULL)
+	, isSPEnabled(false)
 {
 	_sceneMgr->AddScene("Start", this);
 }
@@ -195,7 +196,9 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GetMesh("SKYBOX_TOP")->textureID = LoadTGA("Image//sist_up.tga");
 	MeshBuilder::GetInstance()->GetMesh("SKYBOX_BOTTOM")->textureID = LoadTGA("Image//sist_dn.tga");
 
-	MeshBuilder::GetInstance()->GenerateQuad("GRIDMESH", Color(1, 1, 0), 1.f);
+	MeshBuilder::GetInstance()->GenerateQuad("GRID_YELLOW", Color(1, 1, 0), 1.f);
+	MeshBuilder::GetInstance()->GenerateQuad("GRID_ORANGE", Color(1, 0.5, 0), 1.f);
+	MeshBuilder::GetInstance()->GenerateQuad("GRID_RED", Color(1, 0, 0), 1.f);
 	MeshBuilder::GetInstance()->GenerateRay("laser", 1.0f);
 
 	MeshBuilder::GetInstance()->GenerateOBJ("VASE_HIGH", "Image//Vase_High.obj");
@@ -208,9 +211,9 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GetMesh("VASE_LOW")->textureID = LoadTGA("Image//bed.tga");
 
 	// Set up the Spatial Partition and pass it to the EntityManager to manage
-	CSpatialPartition::GetInstance()->Init(100, 100, 10, 10);
+	CSpatialPartition::GetInstance()->Init(100, 100, 10, 10.2);
 	CSpatialPartition::GetInstance()->SetMeshRenderMode(CGrid::FILL);
-	CSpatialPartition::GetInstance()->SetMesh("GRIDMESH");
+	CSpatialPartition::GetInstance()->SetMesh("GRID_YELLOW");
 	CSpatialPartition::GetInstance()->SetCamera(&camera);
 	CSpatialPartition::GetInstance()->SetLevelOfDetails(10000.0f, 160000.0f);
 
@@ -300,18 +303,18 @@ void SceneText::Update(double dt)
 	//if(KeyboardController::GetInstance()->IsKeyDown('4'))
 	//	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	//
-	if(KeyboardController::GetInstance()->IsKeyDown('5'))
+	/*if(KeyboardController::GetInstance()->IsKeyDown('5'))
 	{
 		lights[0]->type = Light::LIGHT_POINT;
-	}
-	else if(KeyboardController::GetInstance()->IsKeyDown('6'))
+	}*/
+	/*else if(KeyboardController::GetInstance()->IsKeyDown('6'))
 	{
 		lights[0]->type = Light::LIGHT_DIRECTIONAL;
 	}
 	else if(KeyboardController::GetInstance()->IsKeyDown('7'))
 	{
 		lights[0]->type = Light::LIGHT_SPOT;
-	}
+	}*/
 
 	if(KeyboardController::GetInstance()->IsKeyDown('I'))
 		lights[0]->position.z -= (float)(10.f * dt);
@@ -362,7 +365,16 @@ void SceneText::Update(double dt)
 	CSceneGraph::GetInstance()->Update((float)dt);
 
 	// Update the Spatial Partition
-	CSpatialPartition::GetInstance()->Update();
+	if (KeyboardController::GetInstance()->IsKeyDown('5') && !isSPEnabled)
+	{
+		isSPEnabled = true;
+		CSpatialPartition::GetInstance()->Update();
+	}
+	else if (KeyboardController::GetInstance()->IsKeyDown('5') && isSPEnabled)
+	{
+		isSPEnabled = false;
+	}
+	
 
 	// Update NPC
 	//enemyInfo->Update(dt);
@@ -497,7 +509,6 @@ void SceneText::CreateEntities(void)
 									false);
 		anEnemy3D->InitLOD("VASE_HIGH", "VASE_MID", "VASE_LOW");
 		anEnemy3D->Init();
-		//anEnemy3D->SetPos(Vector3(0, 0, 0));
 		anEnemy3D->SetSpeed(10.0f);
 		anEnemy3D->SetCollider(true);
 		anEnemy3D->SetAABB(Vector3(0.5, 0.5, 0.5), Vector3(-0.5, -0.5, -0.5));

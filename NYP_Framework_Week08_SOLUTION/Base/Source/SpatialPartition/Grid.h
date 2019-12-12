@@ -67,6 +67,9 @@ public:
 	// PrintSelf
 	void PrintSelf(void);
 
+	// Change grid color based on number of entities
+	void ChangeGridColor();
+
 protected:
 	// We use a Vector3 to store the indices of this Grid within the Spatial Partition array.
 	Vector3 index;

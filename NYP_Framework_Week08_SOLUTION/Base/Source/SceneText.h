@@ -47,6 +47,7 @@ private:
 	TextEntity* textObj[4];
 	Light* lights[2];
 
+
 	CKeyboard* theKeyboard;
 	CMouse* theMouse;
 	CMinimap* theMinimap;
@@ -56,6 +57,8 @@ private:
 //	CEnemy3D* anEnemy3D;	// This is the CEnemy class for 3D use.
 
 	static SceneText* sInstance; // The pointer to the object that gets registered
+
+	bool isSPEnabled;
 };
 
 #endif

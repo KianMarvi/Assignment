@@ -167,7 +167,6 @@ void CSpatialPartition::EnableFrustumCulling()
 			float gridXPos = (float)(xGridSize* i + (xGridSize >> 1) - (xSize >> 1));
 			float gridZPos = (float)(zGridSize* j + (zGridSize >> 1) - (zSize >> 1));
 			Vector3 gridPos(gridXPos, 0.f, gridZPos);
-			
 			// Do Frustum Culling. We only render the grid if it is in the Frustum
 			if (CFrustumCulling::GetInstance()->isBoxInFrustum(gridPos, xGridSize, zGridSize))
 			{
